@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(beginner_tutorials)
+
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  message_generation
+)
+
+## Generate messages in the 'msg' folder
+
+add_message_files(
+   FILES
+   Num.msg
+ )
+
+add_service_files(
+  FILES
+  AddTwoInts.srv
+ )
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES beginner_tutorials
+#  CATKIN_DEPENDS roscpp rospy std_msgs
+#  DEPENDS system_lib
+CATKIN_DEPENDS message_runtime
+)
+
+include_directories(
+# include
+  ${catkin_INCLUDE_DIRS}
+)
+
+#add_executable(talker src/talker.cpp) #execute file
+add_executable(dis_listener src/dis_listener.cpp) #execute file
+add_executable(dis_talker src/dis_talker.cpp)
+add_executable(dis_pub_sub src/dis_pub_sub.cpp)
+#add_executable(listener src/listener.cpp)
+#target_link_libraries(talker ${catkin_LIBRARIES}) #link
+#target_link_libraries(listener ${catkin_LIBRARIES}) #link
+target_link_libraries(dis_listener ${catkin_LIBRARIES}) #link
+target_link_libraries(dis_talker ${catkin_LIBRARIES})
+target_link_libraries(dis_pub_sub ${catkin_LIBRARIES})
+add_dependencies(dis_talker beginner_tutorials_generate_messages_cpp)
+add_dependencies(dis_listener beginner_tutorials_generate_messages_cpp)
+add_dependencies(dis_pub_sub beginner_tutorials_generate_messages_cpp)
